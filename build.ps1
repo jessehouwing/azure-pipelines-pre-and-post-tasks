@@ -78,7 +78,7 @@ $Source = @”
 Add-Type -TypeDefinition $Source -Language CSharp 
 
 
-if (Test-Path "_kuild")
+if (Test-Path "_build")
 {
     rd _build -force -Recurse
 }
