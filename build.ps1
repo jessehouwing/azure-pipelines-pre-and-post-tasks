@@ -111,96 +111,56 @@ $version = $version.Maximum
 npm install
 
 $tasksToBuild = @("BashV3", "CmdLineV2", "PowerShellV2")
+$taskKinds = @("Pre", "Post")
 
 Write-Host "Building tasks..."
 foreach ($task in $tasksToBuild)
 {
     Write-Host "Building $task..."
-    node make.js build --task $task
+    & node make.js build --task $task
     Write-Host "Building $task done."
 
-    $taskManifests = @("task.json", "task.loc.json")
-
-    # Generate Pre-Tasks
-    Write-Host "Generating Pre-tasks..."
-
-    $taskDir = "$outputDir/Pre/$task"
-    copy "./_build/Tasks/$task" $taskDir -Recurse
-
-    foreach ($taskManifest in $taskManifests)
+    foreach ($kind in $taskKinds)
     {
-        $manifestPath = "$taskDir/$taskManifest"
-        $manifest = (gc $manifestPath) | ConvertFrom-Json
-        $manifest.name = "Pre-$($manifest.name)"
-        if ($taskManifest -eq "task.json")
+        $taskManifests = @("task.json", "task.loc.json")
+
+        Write-Host "Generating $kind-tasks..."
+
+        $taskDir = "$outputDir/$kind/$task"
+        copy "./_build/Tasks/$task" $taskDir -Recurse
+
+        foreach ($taskManifest in $taskManifests)
         {
-            $manifest.friendlyName = "$($manifest.friendlyName) (Pre-Job)"
-            Write-Host "Updating resources..."
-            $resourceFiles = dir "$outputDir\Pre\$task\Strings\resources.resjson\resources.resjson" -recurse
-            foreach ($resourceFile in $resourceFiles)
+            $manifestPath = "$taskDir/$taskManifest"
+            $manifest = (gc $manifestPath) | ConvertFrom-Json
+            $manifest.name = "$kind-$($manifest.name)"
+            if ($taskManifest -eq "task.json")
             {
-                $resources = (gc $resourceFile) | ConvertFrom-Json
-                $resources."loc.friendlyName" = $manifest.friendlyName
-                $resources | ConvertTo-Json -depth 100 | Out-File $resourceFile -Encoding utf8NoBOM
+                $manifest.friendlyName = "$($manifest.friendlyName) ($kind-Job)"
+                Write-Host "Updating resources..."
+                $resourceFiles = dir "$taskDir\Strings\resources.resjson\resources.resjson" -recurse
+                foreach ($resourceFile in $resourceFiles)
+                {
+                    $resources = (gc $resourceFile) | ConvertFrom-Json
+                    $resources."loc.friendlyName" = $manifest.friendlyName
+                    $resources | ConvertTo-Json -depth 100 | Out-File $resourceFile -Encoding utf8NoBOM
+                }
             }
+            $manifest.id = [UUIDv5]::Create([guid]$manifest.id, [string]$manifest.name).ToString()
+            $manifest.author = "Jesse Houwing"
+            $manifest | Add-Member -MemberType NoteProperty -Name "$($kind.ToLower())jobexecution" -Value $manifest.execution
+            $manifest.PSObject.Properties.Remove('execution')
+            $manifest | ConvertTo-Json -depth 100 | Out-File $manifestPath -Encoding utf8NoBOM
         }
-        $manifest.id = [UUIDv5]::Create([guid]$manifest.id, [string]$manifest.name).ToString()
-        $manifest.author = "Jesse Houwing"
-        $manifest | Add-Member -MemberType NoteProperty -Name "prejobexecution" -Value $manifest.execution
-        $manifest.PSObject.Properties.Remove('execution')
-        $manifest | ConvertTo-Json -depth 100 | Out-File $manifestPath -Encoding utf8NoBOM
-    }
- 
-
-    Write-Host "Updating contributions..."
-    $extensionManifest.contributions += @{
-        "id" = "Pre-$task"
-        "type" = "ms.vss-distributed-task.task"
-        "targets" = @("ms.vss-distributed-task.tasks")
-        "properties" = @{
-            "name" = "_build/Pre/$task"
-        }
-    }
-
-    # Generate Post-Tasks
-    Write-Host "Generating Post-tasks..."
-
-    $taskDir = "$outputDir/Post/$task"
-    copy "./_build/Tasks/$task" $taskDir -Recurse
-
-    foreach ($taskManifest in $taskManifests)
-    {
-        $manifestPath = "$taskDir/$taskManifest"
-        $manifest = (gc $manifestPath) | ConvertFrom-Json
-        $manifest.name = "Post-$($manifest.name)"
-        if ($taskManifest -eq "task.json")
-        {
-            $manifest.friendlyName = "$($manifest.friendlyName) (Post-Job)"
-            Write-Host "Updating resources..."
-            $resourceFiles = dir "$outputDir\Post\$task\Strings\resources.resjson\resources.resjson" -recurse
-            foreach ($resourceFile in $resourceFiles)
-            {
-                $resources = (gc $resourceFile) | ConvertFrom-Json
-                $resources."loc.friendlyName" = $manifest.friendlyName
-                $resources | ConvertTo-Json -depth 100 | Out-File $resourceFile -Encoding utf8NoBOM
+    
+        Write-Host "Updating contributions..."
+        $extensionManifest.contributions += @{
+            "id" = "$kind-$task"
+            "type" = "ms.vss-distributed-task.task"
+            "targets" = @("ms.vss-distributed-task.tasks")
+            "properties" = @{
+                "name" = "_build/$kind/$task"
             }
-        }
-        $manifest.id = [UUIDv5]::Create([guid]$manifest.id, [string]$manifest.name).ToString()
-        $manifest.author = "Jesse Houwing"
-        $manifest | Add-Member -MemberType NoteProperty -Name "postjobexecution" -Value $manifest.execution
-        $manifest.PSObject.Properties.Remove('execution')
-        $manifest | ConvertTo-Json -depth 100 | Out-File $manifestPath -Encoding utf8NoBOM
-    }
-
-
-
-    Write-Host "Updating contributions..."
-    $extensionManifest.contributions += @{
-        "id" = "Post-$task"
-        "type" = "ms.vss-distributed-task.task"
-        "targets" = @("ms.vss-distributed-task.tasks")
-        "properties" = @{
-            "name" = "_build/Post/$task"
         }
     }
 }
