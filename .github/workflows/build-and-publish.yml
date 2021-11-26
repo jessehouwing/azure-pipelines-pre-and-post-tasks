@@ -31,3 +31,36 @@ jobs:
         with:
           name: vsix
           path: ./*.vsix
+    
+  deploy-dev:
+    runs-on: windows-latesrt
+    needs: build
+    environment: dev
+    
+    steps:
+    - name: Download a Build Artifact
+      uses: actions/download-artifact@v2.0.10
+      with:
+        name: vsix
+        
+    - run: |
+        & npm install -g tfx-cli
+        & tfx extension publish --vsix jessehouwing.pre-post-tasks-dev-*.vsix --auth-type pat --token ${{ secrets.AZURE_DEVOPS_MARKETPLACE }}
+      shell: pwsh
+      
+  deploy-public:
+    runs-on: windows-latesrt
+    needs: build
+    environment: dev
+    
+    steps:
+    - name: Download a Build Artifact
+      uses: actions/download-artifact@v2.0.10
+      with:
+        name: vsix
+        
+    - run: |
+        & npm install -g tfx-cli
+        & del jessehouwing.pre-post-tasks-dev-*.vsix
+        & tfx extension publish --vsix jessehouwing.pre-post-tasks-*.vsix --auth-type pat --token ${{ secrets.AZURE_DEVOPS_MARKETPLACE }}
+      shell: pwsh
