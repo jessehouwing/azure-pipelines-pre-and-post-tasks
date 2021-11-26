@@ -33,7 +33,7 @@ jobs:
           path: ./*.vsix
     
   deploy-dev:
-    runs-on: windows-latesrt
+    runs-on: windows-latest
     needs: build
     environment: dev
     
@@ -49,7 +49,7 @@ jobs:
       shell: pwsh
       
   deploy-public:
-    runs-on: windows-latesrt
+    runs-on: windows-latest
     needs: build
     environment: dev
     
