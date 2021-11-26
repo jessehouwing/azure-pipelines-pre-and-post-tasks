@@ -82,6 +82,7 @@ if (Test-Path "_build")
 {
     rd _build -force -Recurse
 }
+del *.vsix
 
 $outputDir = md _build -force
 
