@@ -45,7 +45,7 @@ jobs:
         
     - run: |
         & npm install -g tfx-cli
-        & tfx extension publish --vsix jessehouwing.pre-post-tasks-dev-*.vsix --auth-type pat --token ${{ secrets.AZURE_DEVOPS_MARKETPLACE }}
+        & tfx extension publish --vsix $((dir jessehouwing.pre-post-tasks-dev-*.vsix)[0].Name) --auth-type pat --token ${{ secrets.AZURE_DEVOPS_MARKETPLACE }}
       shell: pwsh
       
   deploy-public:
@@ -62,5 +62,5 @@ jobs:
     - run: |
         & npm install -g tfx-cli
         & del jessehouwing.pre-post-tasks-dev-*.vsix
-        & tfx extension publish --vsix jessehouwing.pre-post-tasks-*.vsix --auth-type pat --token ${{ secrets.AZURE_DEVOPS_MARKETPLACE }}
+        & tfx extension publish --vsix $((dir jessehouwing.pre-post-tasks-*.vsix)[0].Name) --auth-type pat --token ${{ secrets.AZURE_DEVOPS_MARKETPLACE }}
       shell: pwsh
