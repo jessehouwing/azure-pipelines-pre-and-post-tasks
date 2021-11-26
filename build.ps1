@@ -1,12 +1,3 @@
-if (Test-Path -path azure-pipelines-tasks)
-{
-    & git pull
-}
-else 
-{
-    & git clone https://github.com/microsoft/azure-pipelines-tasks.git
-}
-
 $Source = @”
     using System;
     using System.Security.Cryptography;
@@ -86,14 +77,36 @@ $Source = @”
 
 Add-Type -TypeDefinition $Source -Language CSharp 
 
-rd _build -force
+
+
+
+rd _build -force -Recurse
 $outputDir = md _build -force
 
+$extensionManifest = gc "vss-extension.json" | ConvertFrom-Json
+$extensionManifest.contributions = @()
+
+if (Test-Path -path azure-pipelines-tasks)
+{
+    & git pull --all
+}
+else 
+{
+    & git clone https://github.com/microsoft/azure-pipelines-tasks.git
+}
+
 cd azure-pipelines-tasks
+git config --local pager.branch false
+$branches = & git branch -r
+$branches | Select-String -pattern "(?<=origin/releases/m)\d+$"
+$version = ($result.Matches) | %{ [int32]$_.Value } | measure-object -maximum
+$version = $version.Maximum
+
+& git reset --hard origin/releases/m$version
+
 npm install
 
-
-$tasksToBuild = @("BashV3", "BatchScriptV1", "CmdLineV2", "PowerShellV2", "ShellScriptV2")
+$tasksToBuild = @("BashV3", "CmdLineV2", "PowerShellV2")
 
 Write-Host "Building tasks..."
 foreach ($task in $tasksToBuild)
@@ -115,11 +128,34 @@ foreach ($task in $tasksToBuild)
         $manifestPath = "$taskDir/$taskManifest"
         $manifest = (gc $manifestPath) | ConvertFrom-Json
         $manifest.name = "Pre-$($manifest.name)"
+        if ($taskManifest -eq "task.json")
+        {
+            $manifest.friendlyName = "$($manifest.friendlyName) (Pre-Job)"
+            Write-Host "Updating resources..."
+            $resourceFiles = dir "$outputDir\Pre\$task\Strings\resources.resjson\resources.resjson" -recurse
+            foreach ($resourceFile in $resourceFiles)
+            {
+                $resources = (gc $resourceFile) | ConvertFrom-Json
+                $resources."loc.friendlyName" = $manifest.friendlyName
+                $resources | ConvertTo-Json -depth 100 | Out-File $resourceFile -Encoding utf8NoBOM
+            }
+        }
         $manifest.id = [UUIDv5]::Create([guid]$manifest.id, [string]$manifest.name).ToString()
         $manifest.author = "Jesse Houwing"
         $manifest | Add-Member -MemberType NoteProperty -Name "prejobexecution" -Value $manifest.execution
         $manifest.PSObject.Properties.Remove('execution')
         $manifest | ConvertTo-Json -depth 100 | Out-File $manifestPath -Encoding utf8NoBOM
+    }
+ 
+
+    Write-Host "Updating contributions..."
+    $extensionManifest.contributions += @{
+        "id" = "Pre-$task"
+        "type" = "ms.vss-distributed-task.task"
+        "targets" = @("ms.vss-distributed-task.tasks")
+        "properties" = @{
+            "name" = "_build/Pre/$task"
+        }
     }
 
     # Generate Post-Tasks
@@ -133,12 +169,40 @@ foreach ($task in $tasksToBuild)
         $manifestPath = "$taskDir/$taskManifest"
         $manifest = (gc $manifestPath) | ConvertFrom-Json
         $manifest.name = "Post-$($manifest.name)"
+        if ($taskManifest -eq "task.json")
+        {
+            $manifest.friendlyName = "$($manifest.friendlyName) (Post-Job)"
+            Write-Host "Updating resources..."
+            $resourceFiles = dir "$outputDir\Post\$task\Strings\resources.resjson\resources.resjson" -recurse
+            foreach ($resourceFile in $resourceFiles)
+            {
+                $resources = (gc $resourceFile) | ConvertFrom-Json
+                $resources."loc.friendlyName" = $manifest.friendlyName
+                $resources | ConvertTo-Json -depth 100 | Out-File $resourceFile -Encoding utf8NoBOM
+            }
+        }
         $manifest.id = [UUIDv5]::Create([guid]$manifest.id, [string]$manifest.name).ToString()
         $manifest.author = "Jesse Houwing"
         $manifest | Add-Member -MemberType NoteProperty -Name "postjobexecution" -Value $manifest.execution
         $manifest.PSObject.Properties.Remove('execution')
         $manifest | ConvertTo-Json -depth 100 | Out-File $manifestPath -Encoding utf8NoBOM
     }
+
+
+
+    Write-Host "Updating contributions..."
+    $extensionManifest.contributions += @{
+        "id" = "Post-$task"
+        "type" = "ms.vss-distributed-task.task"
+        "targets" = @("ms.vss-distributed-task.tasks")
+        "properties" = @{
+            "name" = "_build/Post/$task"
+        }
+    }
 }
 
 # Generate vss-extension.json
+cd ..
+
+$extensionManifest.version = "1.$version.0"
+$extensionManifest | ConvertTo-Json -depth 100 | Out-File "vss-extension.json" -Encoding utf8NoBOM

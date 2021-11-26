@@ -1,190 +1,154 @@
 {
-    "manifestVersion": 1,
-    "id": "pre-post-tasks",
-    "name": "Pre and post script tasks",
-    "version": "0.0.0",
-    "publisher": "jessehouwing",
-    "targets": [
-      {
-        "id": "Microsoft.VisualStudio.Services"
-      }
-    ],
-    "description": "Run scripts before a job starts or after it ends.",
-    "categories": [
-      "Azure Pipelines"
-    ],
-    "tags": [
-      "Utility",
-      "Xpirit"
-    ],
-    "screenshots": [
-    ],
-    "content": {
+  "manifestVersion": 1,
+  "id": "pre-post-tasks",
+  "name": "Pre and post script tasks",
+  "version": "1.196.0",
+  "publisher": "jessehouwing",
+  "targets": [
+    {
+      "id": "Microsoft.VisualStudio.Services"
+    }
+  ],
+  "description": "Run scripts before a job starts or after it ends.",
+  "categories": [
+    "Azure Pipelines"
+  ],
+  "tags": [
+    "Utility",
+    "Xpirit"
+  ],
+  "screenshots": [],
+  "content": {},
+  "links": {
+    "getstarted": {
+      "uri": "https://github.com/jessehouwing/azure-pipelines-pre-and-post-tasks/wiki"
     },
-    "links": {
-      "getstarted": {
-        "uri": "https://github.com/jessehouwing/azure-pipelines-tfvc-tasks/wiki"
-      },
-      "support": {
-        "uri": "https://github.com/jessehouwing/azure-pipelines-tfvc-tasks/issues"
-      },
-      "license": {
-        "uri": "https://github.com/jessehouwing/azure-pipelines-tfvc-tasks/LICENSE.md"
-      },
-      "privacypolicy": {
-        "uri": "https://github.com/jessehouwing/azure-pipelines-tfvc-tasks/blob/main/PRIVACY.md"
-      }
+    "support": {
+      "uri": "https://github.com/jessehouwing/azure-pipelines-pre-and-post-tasks/issues"
     },
-    "badges": [
-      {
-        "href": "https://paypal.me/jessehouwing/5",
-        "uri": "https://raw.githubusercontent.com/jessehouwing/azure-pipelines-tfvc-tasks/main/extension/Images/donate.png",
-        "description": "Donate"
-      },
-      {
-        "href": "//gitter.im/jessehouwing/vsts-tfvc-tasks?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge",
-        "uri": "//badges.gitter.im/jessehouwing/vsts-tfvc-tasks.svg",
-        "description": "Chat"
-      },
-      {
-        "href": "https://dev.azure.com/jessehouwing/azure-devops-extensions/_build/latest?definitionId=49&branchName=master",
-        "uri": "https://dev.azure.com/jessehouwing/azure-devops-extensions/_apis/build/status/azure-pipelines-tfvc-tasks/azure-pipelines-tfvc-tasks-release?branchName=master",
-        "description": "Build"
-      }
-    ],
-  
-    "repository": {
-      "type": "git",
-      "uri": "https://github.com/jessehouwing/azure-pipelines-tfvc-tasks"
+    "license": {
+      "uri": "https://github.com/jessehouwing/azure-pipelines-pre-and-post-tasks/LICENSE.md"
     },
-    "branding": {
-      "color": "rgb(36, 43, 50)",
-      "theme": "dark"
+    "privacypolicy": {
+      "uri": "https://github.com/jessehouwing/azure-pipelines-pre-and-post-tasks/blob/main/PRIVACY.md"
+    }
+  },
+  "repository": {
+    "type": "git",
+    "uri": "https://github.com/jessehouwing/azure-pipelines-pre-and-post-tasks"
+  },
+  "branding": {
+    "color": "rgb(36, 43, 50)",
+    "theme": "dark"
+  },
+  "icons": {
+    "default": "icon.png"
+  },
+  "files": [
+    {
+      "path": "_build"
+    }
+  ],
+  "contributions": [
+    {
+      "type": "ms.vss-distributed-task.task",
+      "properties": {
+        "name": "_build/Pre/BashV3"
+      },
+      "targets": [
+        "ms.vss-distributed-task.tasks"
+      ],
+      "id": "Pre-BashV3"
     },
-    "icons": {
-      "default": "extension/images/extension-icon.png"
+    {
+      "type": "ms.vss-distributed-task.task",
+      "properties": {
+        "name": "_build/Post/BashV3"
+      },
+      "targets": [
+        "ms.vss-distributed-task.tasks"
+      ],
+      "id": "Post-BashV3"
     },
-  
-    "files": [
-      {
-        "path": "tf-vc-add"
+    {
+      "type": "ms.vss-distributed-task.task",
+      "properties": {
+        "name": "_build/Pre/BatchScriptV1"
       },
-      {
-        "path": "tf-vc-checkout"
+      "targets": [
+        "ms.vss-distributed-task.tasks"
+      ],
+      "id": "Pre-BatchScriptV1"
+    },
+    {
+      "type": "ms.vss-distributed-task.task",
+      "properties": {
+        "name": "_build/Post/BatchScriptV1"
       },
-      {
-        "path": "tf-vc-checkin"
+      "targets": [
+        "ms.vss-distributed-task.tasks"
+      ],
+      "id": "Post-BatchScriptV1"
+    },
+    {
+      "type": "ms.vss-distributed-task.task",
+      "properties": {
+        "name": "_build/Pre/CmdLineV2"
       },
-      {
-        "path": "tf-vc-delete"
+      "targets": [
+        "ms.vss-distributed-task.tasks"
+      ],
+      "id": "Pre-CmdLineV2"
+    },
+    {
+      "type": "ms.vss-distributed-task.task",
+      "properties": {
+        "name": "_build/Post/CmdLineV2"
       },
-      {
-        "path": "tf-vc-undo"
+      "targets": [
+        "ms.vss-distributed-task.tasks"
+      ],
+      "id": "Post-CmdLineV2"
+    },
+    {
+      "type": "ms.vss-distributed-task.task",
+      "properties": {
+        "name": "_build/Pre/PowerShellV2"
       },
-      {
-        "path": "tf-vc-dontsync"
+      "targets": [
+        "ms.vss-distributed-task.tasks"
+      ],
+      "id": "Pre-PowerShellV2"
+    },
+    {
+      "type": "ms.vss-distributed-task.task",
+      "properties": {
+        "name": "_build/Post/PowerShellV2"
       },
-      {
-        "path": "tf-vc-fixparallel"
+      "targets": [
+        "ms.vss-distributed-task.tasks"
+      ],
+      "id": "Post-PowerShellV2"
+    },
+    {
+      "type": "ms.vss-distributed-task.task",
+      "properties": {
+        "name": "_build/Pre/ShellScriptV2"
       },
-      {
-        "path": "tf-vc-fixparallel-log"
+      "targets": [
+        "ms.vss-distributed-task.tasks"
+      ],
+      "id": "Pre-ShellScriptV2"
+    },
+    {
+      "type": "ms.vss-distributed-task.task",
+      "properties": {
+        "name": "_build/Post/ShellScriptV2"
       },
-      {
-        "path": "tf-vc-shelveset-update"
-      }
-    ],
-    "contributions": [
-      {
-        "id": "vsts-tfvc-add",
-        "type": "ms.vss-distributed-task.task",
-        "targets": [
-          "ms.vss-distributed-task.tasks"
-        ],
-        "properties": {
-          "name": "tf-vc-add"
-        }
-      },
-      {
-        "id": "vsts-tfvc-checkin",
-        "type": "ms.vss-distributed-task.task",
-        "targets": [
-          "ms.vss-distributed-task.tasks"
-        ],
-        "properties": {
-          "name": "tf-vc-checkin"
-        }
-      },
-      {
-        "id": "vsts-tfvc-checkout",
-        "type": "ms.vss-distributed-task.task",
-        "targets": [
-          "ms.vss-distributed-task.tasks"
-        ],
-        "properties": {
-          "name": "tf-vc-checkout"
-        }
-      },
-      {
-        "id": "vsts-tfvc-delete",
-        "type": "ms.vss-distributed-task.task",
-        "targets": [
-          "ms.vss-distributed-task.tasks"
-        ],
-        "properties": {
-          "name": "tf-vc-delete"
-        }
-      },
-      {
-        "id": "vsts-tfvc-undo",
-        "type": "ms.vss-distributed-task.task",
-        "targets": [
-          "ms.vss-distributed-task.tasks"
-        ],
-        "properties": {
-          "name": "tf-vc-undo"
-        }
-      },
-      {
-        "id": "vsts-tfvc-dontsync",
-        "type": "ms.vss-distributed-task.task",
-        "targets": [
-          "ms.vss-distributed-task.tasks"
-        ],
-        "properties": {
-          "name": "tf-vc-dontsync"
-        }
-      },
-      {
-        "id": "vsts-tfvc-updateshelveset",
-        "type": "ms.vss-distributed-task.task",
-        "targets": [
-          "ms.vss-distributed-task.tasks"
-        ],
-        "properties": {
-          "name": "tf-vc-shelveset-update"
-        }
-      },
-      {
-        "id": "vsts-tfvc-fixparallel",
-        "type": "ms.vss-distributed-task.task",
-        "targets": [
-          "ms.vss-distributed-task.tasks"
-        ],
-        "properties": {
-          "name": "tf-vc-fixparallel"
-        }
-      },
-      {
-        "id": "vsts-tfvc-fixparallel-log",
-        "type": "ms.vss-distributed-task.task",
-        "targets": [
-          "ms.vss-distributed-task.tasks"
-        ],
-        "properties": {
-          "name": "tf-vc-fixparallel-log"
-        }
-      }
-    ]
-  }
-  
+      "targets": [
+        "ms.vss-distributed-task.tasks"
+      ],
+      "id": "Post-ShellScriptV2"
+    }
+  ]
+}
