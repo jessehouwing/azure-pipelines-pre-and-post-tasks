@@ -1,4 +1,4 @@
-# Pre and Post job scrept tasks
+# Pre and Post job script tasks
 
 This extension creates 2 extra versions of the CmdLine, Bash and PowerShell tasks. One that will execute pre-job and one that will execute port-job.
 
