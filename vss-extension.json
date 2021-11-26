@@ -18,7 +18,17 @@
     "Xpirit"
   ],
   "screenshots": [],
-  "content": {},
+  "content": {
+    "details": {
+      "path": "readme.md"
+    },
+    "license": {
+      "path": "LICENSE.md"
+    },
+    "privacy": {
+      "path": "PRIVACY.md"
+    }
+  },
   "links": {
     "getstarted": {
       "uri": "https://github.com/jessehouwing/azure-pipelines-pre-and-post-tasks/wiki"
