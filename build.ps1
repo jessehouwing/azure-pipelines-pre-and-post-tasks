@@ -78,9 +78,11 @@ $Source = @”
 Add-Type -TypeDefinition $Source -Language CSharp 
 
 
+if (Test-Path "_kuild")
+{
+    rd _build -force -Recurse
+}
 
-
-rd _build -force -Recurse
 $outputDir = md _build -force
 
 $extensionManifest = gc "vss-extension.json" | ConvertFrom-Json

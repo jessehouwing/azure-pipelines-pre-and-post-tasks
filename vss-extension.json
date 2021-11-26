@@ -73,26 +73,6 @@
     {
       "type": "ms.vss-distributed-task.task",
       "properties": {
-        "name": "_build/Pre/BatchScriptV1"
-      },
-      "targets": [
-        "ms.vss-distributed-task.tasks"
-      ],
-      "id": "Pre-BatchScriptV1"
-    },
-    {
-      "type": "ms.vss-distributed-task.task",
-      "properties": {
-        "name": "_build/Post/BatchScriptV1"
-      },
-      "targets": [
-        "ms.vss-distributed-task.tasks"
-      ],
-      "id": "Post-BatchScriptV1"
-    },
-    {
-      "type": "ms.vss-distributed-task.task",
-      "properties": {
         "name": "_build/Pre/CmdLineV2"
       },
       "targets": [
@@ -129,26 +109,6 @@
         "ms.vss-distributed-task.tasks"
       ],
       "id": "Post-PowerShellV2"
-    },
-    {
-      "type": "ms.vss-distributed-task.task",
-      "properties": {
-        "name": "_build/Pre/ShellScriptV2"
-      },
-      "targets": [
-        "ms.vss-distributed-task.tasks"
-      ],
-      "id": "Pre-ShellScriptV2"
-    },
-    {
-      "type": "ms.vss-distributed-task.task",
-      "properties": {
-        "name": "_build/Post/ShellScriptV2"
-      },
-      "targets": [
-        "ms.vss-distributed-task.tasks"
-      ],
-      "id": "Post-ShellScriptV2"
     }
   ]
 }
