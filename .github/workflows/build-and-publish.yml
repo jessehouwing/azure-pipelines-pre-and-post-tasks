@@ -51,7 +51,7 @@ jobs:
   deploy-public:
     runs-on: windows-latest
     needs: build
-    environment: dev
+    environment: public
     
     steps:
     - name: Download a Build Artifact
