@@ -25,3 +25,9 @@ jobs:
       - name: Run a one-line script
         run: .\build.ps1
         shell: pwsh
+
+      - name: Store vsix
+        uses: actions/upload-artifact@v2.2.4
+        with:
+          name: vsix
+          path: ./*.vsix
