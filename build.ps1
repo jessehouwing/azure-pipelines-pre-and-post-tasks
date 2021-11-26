@@ -100,8 +100,7 @@ else
 cd azure-pipelines-tasks
 git config --local pager.branch false
 $branches = & git branch -r
-$branches | Select-String -pattern "(?<=origin/releases/m)\d+$"
-$version = ($result.Matches) | %{ [int32]$_.Value } | measure-object -maximum
+$version = (($branches | Select-String -pattern "(?<=origin/releases/m)\d+$").Matches) | %{ [int32]$_.Value } | measure-object -maximum
 $version = $version.Maximum
 
 & git reset --hard origin/releases/m$version
