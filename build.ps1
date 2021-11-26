@@ -210,4 +210,5 @@ $extensionManifest.version = "1.$version.0"
 $extensionManifest | ConvertTo-Json -depth 100 | Out-File "vss-extension.json" -Encoding utf8NoBOM
 
 & npm install tfx-cli -g
-& tfx extension create
+& tfx extension create --manifests vss-extension.dev.json vss-extension.json 
+& tfx extension create --manifests vss-extension.public.json vss-extension.json 
