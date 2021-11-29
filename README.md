@@ -18,9 +18,9 @@ The Pre-job tasks can be used to inject a script very early in pipeline. Under n
  * Install an extension to `git` required by your repository
  * Validate certain conditions and fail the build even befor it starts checking out souces
 
-Some of these steps are more usepul on the Azure Pipelines Hosted Agents, since you can't change their configuration prior to the job starting.
+Some of these steps are more useful on the Azure Pipelines Hosted Agents, since you can't change their configuration prior to the job starting.
 
-> Note: since these tasks run prion to checkout, you can't rely on any script files from your repositories. If you want to run a script file, you'll need to first add a tasks that downloads your script using the inline option, then run the script with a second task that runs the script downloaded by the first task.
+> Note: since these tasks run prior to checkout, you can't rely on any script files from your repositories. If you want to run a script file, you'll need to first add a tasks that downloads your script using the inline option, then run the script with a second task that runs the script downloaded by the first task.
 
 ### Post-Job
 
