@@ -10,7 +10,7 @@ You can use these tasks to inject an (inline) script that runs prior to checkout
 
 ### Pre-job
 
-The Pre-job tasks can be used to inject a script very early in pipeline. Under nopmal circumstances, you'd be required to use a custom task or a decorator to do this. 
+The Pre-job tasks can be used to inject a script very early in pipeline. Under normal circumstances, you'd be required to use a custom task or a decorator to do this. 
 
  * Change variables that influence behavior of the Checkout task. (e.g. `Build.SyncSources`)
  * Install certificates into the git trusted certificates store
