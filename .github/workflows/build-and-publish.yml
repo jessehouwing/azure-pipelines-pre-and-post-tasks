@@ -42,11 +42,24 @@ jobs:
       uses: actions/download-artifact@v2.0.10
       with:
         name: vsix
-        
+    
+    - run: |
+        $vsix = $((dir jessehouwing.pre-post-tasks-dev-*.vsix)[0].Name)
+        $extensionData = & tfx extension show --vsix $vsix --json --no-color --no-prompt --auth-type pat --token 6i56ahfjl74fi5inude4uszfrrbgrhz36y7jutxdsjwqvlo7wejq
+        $extensionData = $extensionData | ConvertFrom-Json
+        $version = ($vsix | select-string "\d+\.\d+.\d+").Matches[0].Value
+        if (($extensionData.Versions | ?{ $version -eq $_.version} ).Count -gt 0 ) {
+          write-host "::set-output name=skipPublish::true"
+        }
+      shell: pwsh
+      name: Query current version 
+      id: queryVersion
+      
     - run: |
         & npm install -g tfx-cli
         & tfx extension publish --vsix $((dir jessehouwing.pre-post-tasks-dev-*.vsix)[0].Name) --auth-type pat --token ${{ secrets.AZURE_DEVOPS_MARKETPLACE }}
       shell: pwsh
+      if: ${{ queryVersion.skipPublish != "true" }}
       
   deploy-public:
     runs-on: windows-latest
@@ -60,7 +73,23 @@ jobs:
         name: vsix
         
     - run: |
-        & npm install -g tfx-cli
         & del jessehouwing.pre-post-tasks-dev-*.vsix
+      shell: pwsh
+      
+    - run: |
+        $vsix = $((dir jessehouwing.pre-post-tasks-*.vsix)[0].Name)
+        $extensionData = & tfx extension show --vsix $vsix --json --no-color --no-prompt --auth-type pat --token 6i56ahfjl74fi5inude4uszfrrbgrhz36y7jutxdsjwqvlo7wejq
+        $extensionData = $extensionData | ConvertFrom-Json
+        $version = ($vsix | select-string "\d+\.\d+.\d+").Matches[0].Value
+        if (($extensionData.Versions | ?{ $version -eq $_.version} ).Count -gt 0 ) {
+          write-host "::set-output name=skipPublish::true"
+        }
+      shell: pwsh
+      name: Query current version 
+      id: queryVersion
+      
+    - run: |
+        & npm install -g tfx-cli
         & tfx extension publish --vsix $((dir jessehouwing.pre-post-tasks-*.vsix)[0].Name) --auth-type pat --token ${{ secrets.AZURE_DEVOPS_MARKETPLACE }}
       shell: pwsh
+      if: ${{ queryVersion.skipPublish != "true" }}
