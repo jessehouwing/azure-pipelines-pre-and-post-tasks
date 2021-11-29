@@ -49,7 +49,7 @@ jobs:
     
     - run: |
         $vsix = $((dir jessehouwing.pre-post-tasks-dev-*.vsix)[0].Name)
-        $extensionData = & tfx extension show --vsix $vsix --json --no-color --no-prompt --auth-type pat --token 6i56ahfjl74fi5inude4uszfrrbgrhz36y7jutxdsjwqvlo7wejq
+        $extensionData = & tfx extension show --vsix $vsix --json --no-color --no-prompt --auth-type pat --token ${{ secrets.AZURE_DEVOPS_MARKETPLACE }}
         $extensionData = $extensionData | ConvertFrom-Json
         $version = ($vsix | select-string "\d+\.\d+.\d+").Matches[0].Value
         if (($extensionData.Versions | ?{ $version -eq $_.version} ).Count -gt 0 ) {
@@ -82,7 +82,7 @@ jobs:
       
     - run: |
         $vsix = $((dir jessehouwing.pre-post-tasks-*.vsix)[0].Name)
-        $extensionData = & tfx extension show --vsix $vsix --json --no-color --no-prompt --auth-type pat --token 6i56ahfjl74fi5inude4uszfrrbgrhz36y7jutxdsjwqvlo7wejq
+        $extensionData = & tfx extension show --vsix $vsix --json --no-color --no-prompt --auth-type pat --token ${{ secrets.AZURE_DEVOPS_MARKETPLACE }}
         $extensionData = $extensionData | ConvertFrom-Json
         $version = ($vsix | select-string "\d+\.\d+.\d+").Matches[0].Value
         if (($extensionData.Versions | ?{ $version -eq $_.version} ).Count -gt 0 ) {
