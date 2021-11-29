@@ -59,7 +59,7 @@ jobs:
         & npm install -g tfx-cli
         & tfx extension publish --vsix $((dir jessehouwing.pre-post-tasks-dev-*.vsix)[0].Name) --auth-type pat --token ${{ secrets.AZURE_DEVOPS_MARKETPLACE }}
       shell: pwsh
-      if: ${{ queryVersion.skipPublish != "true" }}
+      if: ${{ steps.queryVersion.outputs.skipPublish != "true" }}
       
   deploy-public:
     runs-on: windows-latest
@@ -92,4 +92,4 @@ jobs:
         & npm install -g tfx-cli
         & tfx extension publish --vsix $((dir jessehouwing.pre-post-tasks-*.vsix)[0].Name) --auth-type pat --token ${{ secrets.AZURE_DEVOPS_MARKETPLACE }}
       shell: pwsh
-      if: ${{ queryVersion.skipPublish != "true" }}
+      if: ${{ steps.queryVersion.outputs.skipPublish != "true" }}
