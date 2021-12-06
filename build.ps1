@@ -168,12 +168,14 @@ foreach ($task in $tasksToBuild)
 # Generate vss-extension.json
 cd ..
 
+& git fetch --tags
+
 if (-not ((& git tag --list) -like "v1.$version.0")){
     & git tag "v1.$version.0"
     & git push --tags
 }
 
-$versionInfo = & .\gitversion.exe | Convert-FromJson
+$versionInfo = (& .\gitversion.exe) | ConvertFrom-Json
 $extensionManifest.version = "$($versionInfo.Major).$version.$($versionInfo.CommitsSinceVersionSource)"
 $extensionManifest | ConvertTo-Json -depth 100 | Out-File "vss-extension.json" -Encoding utf8NoBOM
 
