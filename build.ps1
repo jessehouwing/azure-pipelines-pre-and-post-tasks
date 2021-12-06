@@ -175,7 +175,8 @@ if (-not ((& git tag --list) -like "v1.$version.0")){
     & git push --tags
 }
 
-$versionInfo = (& .\gitversion.exe) | ConvertFrom-Json
+[console]::InputEncoding = [console]::OutputEncoding = New-Object System.Text.UTF8Encoding
+$versionInfo = & .\gitversion.exe | ConvertFrom-Json
 $extensionManifest.version = "$($versionInfo.Major).$version.$($versionInfo.CommitsSinceVersionSource)"
 $extensionManifest | ConvertTo-Json -depth 100 | Out-File "vss-extension.json" -Encoding utf8NoBOM
 
