@@ -1,7 +1,7 @@
 {
   "manifestVersion": 1,
   "name": "Pre and post script tasks",
-  "version": "1.196.0",
+  "version": "1.198.0",
   "publisher": "jessehouwing",
   "targets": [
     {
@@ -60,64 +60,64 @@
   ],
   "contributions": [
     {
+      "id": "Pre-BashV3",
       "type": "ms.vss-distributed-task.task",
+      "targets": [
+        "ms.vss-distributed-task.tasks"
+      ],
       "properties": {
         "name": "_build/Pre/BashV3"
-      },
+      }
+    },
+    {
+      "id": "Post-BashV3",
+      "type": "ms.vss-distributed-task.task",
       "targets": [
         "ms.vss-distributed-task.tasks"
       ],
-      "id": "Pre-BashV3"
-    },
-    {
-      "type": "ms.vss-distributed-task.task",
       "properties": {
         "name": "_build/Post/BashV3"
-      },
+      }
+    },
+    {
+      "id": "Pre-CmdLineV2",
+      "type": "ms.vss-distributed-task.task",
       "targets": [
         "ms.vss-distributed-task.tasks"
       ],
-      "id": "Post-BashV3"
-    },
-    {
-      "type": "ms.vss-distributed-task.task",
       "properties": {
         "name": "_build/Pre/CmdLineV2"
-      },
+      }
+    },
+    {
+      "id": "Post-CmdLineV2",
+      "type": "ms.vss-distributed-task.task",
       "targets": [
         "ms.vss-distributed-task.tasks"
       ],
-      "id": "Pre-CmdLineV2"
-    },
-    {
-      "type": "ms.vss-distributed-task.task",
       "properties": {
         "name": "_build/Post/CmdLineV2"
-      },
+      }
+    },
+    {
+      "id": "Pre-PowerShellV2",
+      "type": "ms.vss-distributed-task.task",
       "targets": [
         "ms.vss-distributed-task.tasks"
       ],
-      "id": "Post-CmdLineV2"
-    },
-    {
-      "type": "ms.vss-distributed-task.task",
       "properties": {
         "name": "_build/Pre/PowerShellV2"
-      },
-      "targets": [
-        "ms.vss-distributed-task.tasks"
-      ],
-      "id": "Pre-PowerShellV2"
+      }
     },
     {
+      "id": "Post-PowerShellV2",
       "type": "ms.vss-distributed-task.task",
-      "properties": {
-        "name": "_build/Post/PowerShellV2"
-      },
       "targets": [
         "ms.vss-distributed-task.tasks"
       ],
-      "id": "Post-PowerShellV2"
+      "properties": {
+        "name": "_build/Post/PowerShellV2"
+      }
     }
   ]
 }
