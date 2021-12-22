@@ -154,7 +154,7 @@ foreach ($task in $tasksToBuild)
         }
     
         Write-Host "Updating contributions..."
-        $extensionManifest.contributions += @{
+        $extensionManifest.contributions += [ordered] @{
             "id" = "$kind-$task"
             "type" = "ms.vss-distributed-task.task"
             "targets" = @("ms.vss-distributed-task.tasks")
