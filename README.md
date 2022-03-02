@@ -35,6 +35,6 @@ I've used these tasks to test scripts I've lates included in custom tasks and dn
 
  * [Fix parallel pipeline execution of TFVC builds on the hosted pool](https://jessehouwing.net/azure-pipelines-fixing-massive-parallel-builds-with-tfvc/).
  * [Skip Checkout / Don't sync sources task for TFVC](https://github.com/jessehouwing/azure-pipelines-tfvc-tasks/tree/main/tf-vc-dontsync/v2)
- * [Install trusted GPG keys prior to checkout](https://github.com/XpiritBV/azure-pipelines-verify-signed-decorator/blob/main/verify-signed-decorator.yml)
+ * [Install trusted GPG keys prior to checkout](https://github.com/jessehouwing/azure-pipelines-verify-signed-decorator/blob/main/verify-signed-decorator.yml)
 
 And you can find many other people who included [pre-](https://github.com/search?q=prejobexecution+filename%3Atask.json&type=Code&ref=advsearch&l=&l=) and [post-job](https://github.com/search?q=postjobexecution+filename%3Atask.json&type=Code&ref=advsearch&l=&l=) tasks in their extensions. I'm hoping these tasks will make the job of developing these extensions a little easier. And possibly will remove the need for these kinds of extensions for one-of scripts that need to run outside of the job context.
