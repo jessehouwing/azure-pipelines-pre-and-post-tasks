@@ -31,7 +31,7 @@ The post-job tasks can be used to inject a script that will run after the job ha
 
 ## My own uses
 
-I've used these tasks to test scripts I've lates included in custom tasks and dncorators. That way I did not have to build and publish the extension(s) containing these tasks every time I needed to test something. Examples of my own usage:
+I've used these tasks to test scripts I've lates included in custom tasks and decorators. That way I did not have to build and publish the extension(s) containing these tasks every time I needed to test something. Examples of my own usage:
 
  * [Fix parallel pipeline execution of TFVC builds on the hosted pool](https://jessehouwing.net/azure-pipelines-fixing-massive-parallel-builds-with-tfvc/).
  * [Skip Checkout / Don't sync sources task for TFVC](https://github.com/jessehouwing/azure-pipelines-tfvc-tasks/tree/main/tf-vc-dontsync/v2)
