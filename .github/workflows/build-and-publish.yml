@@ -41,7 +41,7 @@ jobs:
     
     steps:
     - name: Download a Build Artifact
-      uses: actions/download-artifact@v2.0.10
+      uses: actions/download-artifact@v3.0.1
       with:
         name: vsix
         
@@ -73,7 +73,7 @@ jobs:
     
     steps:
     - name: Download a Build Artifact
-      uses: actions/download-artifact@v2.0.10
+      uses: actions/download-artifact@v3.0.1
       with:
         name: vsix
         
