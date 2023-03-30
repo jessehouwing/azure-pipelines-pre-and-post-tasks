@@ -1,6 +1,6 @@
-# Moved
+# ⚠️⚠️ This project has moved ⚠️⚠️
 
-[⚠️ The process to build this extension has merged with the Azure Pipelines Tasks Zips.](https://github.com/jessehouwing/azure-pipelines-tasks-zips)
+[The process to build this extension has merged with the Azure Pipelines Tasks Zips.](https://github.com/jessehouwing/azure-pipelines-tasks-zips)
 
 # Pre and Post job script tasks
 
