@@ -1,3 +1,7 @@
+# Moved
+
+[⚠️ The process to build this extension has merged with the Azure Pipelines Tasks Zips.](https://github.com/jessehouwing/azure-pipelines-tasks-zips)
+
 # Pre and Post job script tasks
 
 This extension contains patched versions of the "BashV3", "CmdLineV2" and "PowerShellV2" tasks. They are built from the latest release/mXXX branch of the [azure-pipelines-tasks](https://github.com/Microsoft/azure-pipelines-tasks) repository.
